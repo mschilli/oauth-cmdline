@@ -79,6 +79,17 @@ sub access_token {
 }
 
 ###########################################
+sub authorization_headers {
+###########################################
+    my( $self ) = @_;
+
+    return { 
+        'Authorization' => 
+            'Bearer ' . $self->access_token
+    };
+}
+
+###########################################
 sub token_refresh {
 ###########################################
     my( $self ) = @_;
@@ -240,6 +251,14 @@ Oauth::Cmdline - Oauth2 for command line applications using web services
 Oauth::Cmdline helps standalone command line scripts to deal with 
 web services requiring OAuth access tokens.
 
+=head1 WARNING: LIMITED ALPHA RELEASE
+
+While C<Oauth::Cmdline> has been envisioned to work with 
+various OAuth-controlled web services, it currently only works with 
+Spotify. But stay tuned, I'll refactor the site-specific parts of the
+code soon, so that it'll work with Google Drive, Evernote and others as 
+well. Hey, or send me a pull request if you want to beat me to it! :)
+
 =head1 GETTING STARTED
 
 To obtain the initial set of access and refresh tokens from the 
@@ -274,6 +293,21 @@ provided on the site. The site will then redirect to the web server
 started by the script, which will receive an initial access token with 
 an expiration date and a refresh token from the site, and store it locally
 in the cache file in your home directory (~/.sitename.yml).
+
+=head1 ACCESS TOKEN ACCESS
+
+Once the cache file has been initialized, the application can use the
+C<access_token()> method in order to get a valid access token. If 
+C<Oauth::Cmdline> finds out that the cached access token is expired, 
+it'll automatically refresh it for you behind the scenes.
+
+C<Oauth::Cmdline> also offers a convenience function for providing a hash
+with authorization headers for use with LWP::UserAgent:
+
+    my $resp = $ua->get( $url, $oauth->authorization_headers );
+
+This will create an "Authorization" header based on the access token and
+include it in the request to the web service.
 
 =head1 LEGALESE
 
