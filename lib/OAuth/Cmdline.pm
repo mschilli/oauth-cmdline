@@ -83,10 +83,10 @@ sub authorization_headers {
 ###########################################
     my( $self ) = @_;
 
-    return { 
+    return ( 
         'Authorization' => 
             'Bearer ' . $self->access_token
-    };
+    );
 }
 
 ###########################################
