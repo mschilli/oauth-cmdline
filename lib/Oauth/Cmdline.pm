@@ -10,6 +10,7 @@ use HTTP::Request::Common;
 use LWP::UserAgent;
 use Log::Log4perl qw(:easy);
 use JSON qw( from_json );
+use MIME::Base64;
 
 our $VERSION = "0.01";
 
@@ -86,17 +87,22 @@ sub token_refresh {
 
     my $cache = $self->cache_read();
 
+    $self->token_uri( $cache->{ token_uri } );
+
+    my $auth_header = 
+        "Basic " . 
+        encode_base64( 
+            "$cache->{ client_id }:$cache->{ client_secret }", 
+            "" # no line break!!
+        );
+
     my $req = &HTTP::Request::Common::POST(
         $self->token_uri,
-        [
-            refresh_token =>
-            $cache->{ refresh_token },
-            client_id     =>
-            $cache->{ client_id },
-            client_secret =>
-            $cache->{ client_secret },
+        {
+            refresh_token => $cache->{ refresh_token },
             grant_type    => 'refresh_token',
-        ]
+        },
+        Authorization => $auth_header,
     );
 
     my $ua = LWP::UserAgent->new();
@@ -112,9 +118,8 @@ sub token_refresh {
         $cache->{ expires }      = $data->{ expires_in } + time();
 
         $self->cache_write( $cache );
+        return 1;
     }
-
-    return 1;
 
     ERROR "Token refresh failed: ", $resp->status_line();
     return undef;
@@ -148,7 +153,7 @@ sub cache_read {
 ###########################################
     my( $self ) = @_;
 
-    if( -f $self->cache_file_path ) {
+    if( ! -f $self->cache_file_path ) {
         LOGDIE "Cache file ", $self->cache_file_path, " not found. ",
           "See GETTING STARTED in the docs for how to get started.";
     }
@@ -211,6 +216,7 @@ sub tokens_collect {
         client_id     => $self->client_id,
         client_secret => $self->client_secret,
         expires       => time() + $expires_in,
+        token_uri     => $self->token_uri,
     };
 
     $self->cache_write( $cache );
