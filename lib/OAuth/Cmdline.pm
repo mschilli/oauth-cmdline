@@ -1,5 +1,5 @@
 ###########################################
-package Oauth::Cmdline;
+package OAuth::Cmdline;
 ###########################################
 use strict;
 use warnings;
@@ -239,21 +239,21 @@ __END__
 
 =head1 NAME
 
-Oauth::Cmdline - Oauth2 for command line applications using web services
+OAuth::Cmdline - OAuth2 for command line applications using web services
 
 =head1 SYNOPSIS
 
-    my $oauth = Oauth::Cmdline->new( site => "spotify" );
+    my $oauth = OAuth::Cmdline->new( site => "spotify" );
     $oauth->access_token();
 
 =head1 DESCRIPTION
 
-Oauth::Cmdline helps standalone command line scripts to deal with 
+OAuth::Cmdline helps standalone command line scripts to deal with 
 web services requiring OAuth access tokens.
 
 =head1 WARNING: LIMITED ALPHA RELEASE
 
-While C<Oauth::Cmdline> has been envisioned to work with 
+While C<OAuth::Cmdline> has been envisioned to work with 
 various OAuth-controlled web services, it currently only works with 
 Spotify. But stay tuned, I'll refactor the site-specific parts of the
 code soon, so that it'll work with Google Drive, Evernote and others as 
@@ -262,16 +262,16 @@ well. Hey, or send me a pull request if you want to beat me to it! :)
 =head1 GETTING STARTED
 
 To obtain the initial set of access and refresh tokens from the 
-Oauth-controlled site, you need to register your command line app
+OAuth-controlled site, you need to register your command line app
 with the site and you'll get a "Client ID" and a "Client Secret" 
 in return. Also, the site's SDK will point out the "Login URI" and
 the "Token URI" to be used with the particular service.
 Then, run the following script (the example uses the Spotify web service)
 
-    use Oauth::Cmdline;
-    use Oauth::Cmdline::Mojo;
+    use OAuth::Cmdline;
+    use OAuth::Cmdline::Mojo;
 
-    my $oauth = Oauth::Cmdline->new(
+    my $oauth = OAuth::Cmdline->new(
         client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         client_secret => "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
         login_uri     => "https://accounts.spotify.com/authorize",
@@ -280,14 +280,14 @@ Then, run the following script (the example uses the Spotify web service)
         scope         => "user-read-private",
     );
     
-    my $app = Oauth::Cmdline::Mojo->new(
+    my $app = OAuth::Cmdline::Mojo->new(
         oauth => $oauth,
     );
     
     $app->start( 'daemon', '-l', $oauth->local_uri );
 
 and point a browser to the URL displayed at startup. Clicking on the
-link displayed will take you to the Oauth-controlled site, where you need
+link displayed will take you to the OAuth-controlled site, where you need
 to log in and allow the app access to the user data, following the flow
 provided on the site. The site will then redirect to the web server
 started by the script, which will receive an initial access token with 
@@ -298,10 +298,10 @@ in the cache file in your home directory (~/.sitename.yml).
 
 Once the cache file has been initialized, the application can use the
 C<access_token()> method in order to get a valid access token. If 
-C<Oauth::Cmdline> finds out that the cached access token is expired, 
+C<OAuth::Cmdline> finds out that the cached access token is expired, 
 it'll automatically refresh it for you behind the scenes.
 
-C<Oauth::Cmdline> also offers a convenience function for providing a hash
+C<OAuth::Cmdline> also offers a convenience function for providing a hash
 with authorization headers for use with LWP::UserAgent:
 
     my $resp = $ua->get( $url, $oauth->authorization_headers );

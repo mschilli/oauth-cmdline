@@ -1,5 +1,5 @@
 ###########################################
-package Oauth::Cmdline::Mojo;
+package OAuth::Cmdline::Mojo;
 ###########################################
 use strict;
 use warnings;
@@ -24,7 +24,7 @@ sub template_path {
 
     # point renderer to where our .html.ep 
     # templates are installed
-  my $dir = $INC{ 'Oauth/Cmdline.pm' };
+  my $dir = $INC{ 'OAuth/Cmdline.pm' };
   $dir =~ s/\.pm//;
   $dir .= "/templates";
 
@@ -32,7 +32,7 @@ sub template_path {
 }
 
 ###########################################
-package Oauth::Cmdline::Mojo::Main;
+package OAuth::Cmdline::Mojo::Main;
 ###########################################
 use Mojo::Base 'Mojolicious::Controller';
 
@@ -66,17 +66,17 @@ __END__
 
 =head1 NAME
 
-Oauth::Cmdline::Mojolicious - Run a standalone token collector
+OAuth::Cmdline::Mojolicious - Run a standalone token collector
 
 =head1 SYNOPSIS
 
-    use Oauth::Cmdline::Mojolicious;
+    use OAuth::Cmdline::Mojolicious;
     app->start();
 
 =head1 DESCRIPTION
 
-Oauth::Cmdline::Mojolicious starts a web server, to which you should
-point your browser, in order to go through the Oauth rigamarole and
+OAuth::Cmdline::Mojolicious starts a web server, to which you should
+point your browser, in order to go through the OAuth rigamarole and
 collect the tokens for later use in command line scripts.
 
 =head1 LEGALESE
