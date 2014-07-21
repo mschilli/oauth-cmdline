@@ -6,7 +6,7 @@ use warnings;
 use strict;
 use Test::More;
 use JSON qw( from_json );
-use OAuth::Cmdline;
+use OAuth::Cmdline::Spotify;
 
 BEGIN {
     if(exists $ENV{"LIVE_TESTS"}) {
@@ -16,9 +16,7 @@ BEGIN {
     }
 }
 
-my $spotify = OAuth::Cmdline->new(
-    site => "spotify"
-);
+my $spotify = OAuth::Cmdline::Spotify->new( );
 
 if( ! -f $spotify->cache_file_path ) {
     die "You need a fully initialized ", 

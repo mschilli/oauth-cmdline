@@ -5,7 +5,13 @@ use strict;
 use warnings;
 use MIME::Base64;
 
-our @ISA = qw( OAuth::Cmdline );
+use base qw( OAuth::Cmdline );
+
+###########################################
+sub site {
+###########################################
+    return "spotify";
+}
 
 ###########################################
 sub token_refresh_authorization_header {

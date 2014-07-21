@@ -6,15 +6,14 @@
 use strict;
 use lib 'lib';
 
-use OAuth::Cmdline;
+use OAuth::Cmdline::GoogleDrive;
 use OAuth::Cmdline::Mojo;
 
-my $oauth = OAuth::Cmdline->new(
+my $oauth = OAuth::Cmdline::GoogleDrive->new(
     client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     client_secret => "YYYYYYYYYYYYYYYYYYYYYYYY",
     login_uri     => "https://accounts.google.com/o/oauth2/auth",
     token_uri     => "https://accounts.google.com/o/oauth2/token",
-    site          => "google-drive",
     scope         => "https://www.googleapis.com/auth/drive",
 );
 

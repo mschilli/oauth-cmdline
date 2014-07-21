@@ -4,16 +4,14 @@
 # Mike Schilli, 2014 (cpan@perlmeister.com)
 ###########################################
 use strict;
-use OAuth::Cmdline;
+use OAuth::Cmdline::Spotify;
 use LWP::UserAgent;
 use JSON qw( from_json );
 
 my( $user ) = @ARGV;
 die "usage: $0 user" if !defined $user;
 
-my $oauth = OAuth::Cmdline->new(
-    site => "spotify"
-);
+my $oauth = OAuth::Cmdline::Spotify->new( );
 
 my $ua = LWP::UserAgent->new();
 $ua->default_header( 

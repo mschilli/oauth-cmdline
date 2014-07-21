@@ -41,7 +41,8 @@ sub root {
 ###########################################
   my ( $self ) = @_;
 
-  $self->stash->{login_url} = $self->app->{ oauth }->full_login_uri();
+  $self->stash->{ login_url } = $self->app->{ oauth }->full_login_uri();
+  $self->stash->{ site }      = $self->app->{ oauth }->site();
 
   $self->render( "main" );
 }

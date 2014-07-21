@@ -4,15 +4,13 @@
 # Mike Schilli, 2014 (cpan@perlmeister.com)
 ###########################################
 use strict;
-use OAuth::Cmdline;
+use OAuth::Cmdline::GoogleDrive;
 use LWP::UserAgent;
 use JSON qw( from_json );
 use Log::Log4perl qw(:easy);
 Log::Log4perl->easy_init($DEBUG);
 
-my $oauth = OAuth::Cmdline->new(
-    site => "google-drive"
-);
+my $oauth = OAuth::Cmdline::GoogleDrive->new( );
 
 my $ua = LWP::UserAgent->new();
 $ua->default_header( 

@@ -6,15 +6,14 @@
 use strict;
 use lib 'lib';
 
-use OAuth::Cmdline;
+use OAuth::Cmdline::Spotify;
 use OAuth::Cmdline::Mojo;
 
-my $oauth = OAuth::Cmdline->new(
+my $oauth = OAuth::Cmdline::Spotify->new(
     client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     client_secret => "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
     login_uri     => "https://accounts.spotify.com/authorize",
     token_uri     => "https://accounts.spotify.com/api/token",
-    site          => "spotify",
     scope         => "user-read-private",
 );
 
