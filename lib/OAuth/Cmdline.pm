@@ -247,7 +247,8 @@ OAuth::Cmdline - OAuth2 for command line applications using web services
 =head1 SYNOPSIS
 
       # Use a site-specific class instead of the parent class, see
-      # description below
+      # description below for generic cases
+
     my $oauth = OAuth::Cmdline::GoogleDrive->new( );
     $oauth->access_token();
 

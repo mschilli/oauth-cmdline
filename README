@@ -1,12 +1,15 @@
 ######################################################################
-    OAuth::Cmdline 0.01
+    OAuth::Cmdline 0.02
 ######################################################################
 
 NAME
     OAuth::Cmdline - OAuth2 for command line applications using web services
 
 SYNOPSIS
-        my $oauth = OAuth::Cmdline->new( site => "spotify" );
+          # Use a site-specific class instead of the parent class, see
+          # description below for generic cases
+
+        my $oauth = OAuth::Cmdline::GoogleDrive->new( );
         $oauth->access_token();
 
 DESCRIPTION
@@ -15,10 +18,23 @@ DESCRIPTION
 
 WARNING: LIMITED ALPHA RELEASE
     While "OAuth::Cmdline" has been envisioned to work with various
-    OAuth-controlled web services, it currently only works with Spotify. But
-    stay tuned, I'll refactor the site-specific parts of the code soon, so
-    that it'll work with Google Drive, Evernote and others as well. Hey, or
-    send me a pull request if you want to beat me to it! :)
+    OAuth-controlled web services, it currently only works with the Google
+    Drive API and Spotify. But stay tuned, I'll refactor the site-specific
+    parts of the code soon, so that it'll work with Evernote, Tumblr and
+    others as well. Hey, or send me a pull request if you want to beat me to
+    it! :) So far the following subclasses are available:
+
+        OAuth::Cmdline::GoogleDrive
+        OAuth::Cmdline::Spotify
+
+    If you want to use this module for a different service, go ahead and try
+    it, it might just as well work. In this case, specify the "site"
+    parameter, which determines the name of the cache file with the access
+    token and other settings in your home directory:
+
+          # Will use standard OAuth techniques and save your
+          # tokens in ~/.some-other.site.yml
+        my $oauth = OAuth::Cmdline->new( site => "some-other-site" );
 
 GETTING STARTED
     To obtain the initial set of access and refresh tokens from the
@@ -31,12 +47,11 @@ GETTING STARTED
         use OAuth::Cmdline;
         use OAuth::Cmdline::Mojo;
 
-        my $oauth = OAuth::Cmdline->new(
+        my $oauth = OAuth::Cmdline::GoogleDrive->new(
             client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
             client_secret => "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
             login_uri     => "https://accounts.spotify.com/authorize",
             token_uri     => "https://accounts.spotify.com/api/token",
-            site          => "spotify",
             scope         => "user-read-private",
         );
     

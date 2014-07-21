@@ -1,7 +1,12 @@
 Changes
+eg/google-drive-files
+eg/google-drive-token-init
 eg/spotify-token-init
+eg/spotify-user-playlists
 lib/OAuth/Cmdline.pm
+lib/OAuth/Cmdline/GoogleDrive.pm
 lib/OAuth/Cmdline/Mojo.pm
+lib/OAuth/Cmdline/Spotify.pm
 lib/OAuth/Cmdline/templates/main.html.ep
 Makefile.PL
 MANIFEST			This list of files
