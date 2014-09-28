@@ -1,6 +1,9 @@
 ######################################################################
 Revision history for Perl extension OAuth::Cmdline
 
+0.04 (not yet released)
+    (ms) umask() call now localized
+
 0.03  2014/09/27
     (ms) Added token_expire to force a refresh of the access token
 

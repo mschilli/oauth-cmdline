@@ -191,8 +191,12 @@ sub cache_write {
 ###########################################
     my( $self, $cache ) = @_;
 
-    umask 0177;
-    return DumpFile $self->cache_file_path, $cache;
+    my $old_umask = umask 0177;
+
+    DumpFile $self->cache_file_path, $cache;
+
+    umask $old_umask;
+    return 1;
 }
 
 ###########################################
