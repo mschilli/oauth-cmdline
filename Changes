@@ -1,6 +1,9 @@
 ######################################################################
 Revision history for Perl extension OAuth::Cmdline
 
+0.03  2014/09/27
+    (ms) Added token_expire to force a refresh of the access token
+
 0.02  2014/07/20
     (ms) Works now with the Google Drive API
     (ms) Using site-specific classes now, OAuth::Cmdline::GoogleDrive,

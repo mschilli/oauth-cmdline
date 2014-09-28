@@ -12,7 +12,7 @@ use JSON qw( from_json );
 use MIME::Base64;
 use Moo;
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 has client_id     => ( is => "ro" );
 has client_secret => ( is => "ro" );
@@ -160,6 +160,17 @@ sub token_expired {
     }
 
     return 0;
+}
+
+###########################################
+sub token_expire {
+###########################################
+    my( $self ) = @_;
+
+    my $cache = $self->cache_read();
+
+    $cache->{ expires } = time() - 1;
+    $self->cache_write( $cache );
 }
 
 ###########################################
@@ -327,6 +338,39 @@ with authorization headers for use with LWP::UserAgent:
 
 This will create an "Authorization" header based on the access token and
 include it in the request to the web service.
+
+=head2 Public Methods
+
+=over 4
+
+=item C<new()>
+
+Instantiate a new OAuth::Cmdline::XXX object. XXX stands for the specific
+site's implementation, and can be "GoogleDrive" or "Spotify" or similar.
+
+=item C<authorization_headers()>
+
+Returns the HTTP header name and value the specific site requires for
+authentication. For example, in GoogleDrive's case, the values are:
+
+    AuthorizationBearer xxxxx.yyy
+
+The method is used to pass the authentication header key and value 
+to an otherwise unauthenticated web request, like
+
+    my $resp = $ua->get( $url, $oauth->authorization_headers );
+
+=item C<token_expired()>
+
+(Internal) Check if the access token is expired and will be refreshed
+on the next call of C<authorization_headers()>.
+
+=item C<token_expire()>
+
+Force the expiration of the access token, so that the next request 
+obtains a new one.
+
+=back
 
 =head1 LEGALESE
 

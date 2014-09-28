@@ -1,5 +1,5 @@
 ######################################################################
-    OAuth::Cmdline 0.02
+    OAuth::Cmdline 0.03
 ######################################################################
 
 NAME
@@ -82,6 +82,32 @@ ACCESS TOKEN ACCESS
 
     This will create an "Authorization" header based on the access token and
     include it in the request to the web service.
+
+  Public Methods
+    "new()"
+        Instantiate a new OAuth::Cmdline::XXX object. XXX stands for the
+        specific site's implementation, and can be "GoogleDrive" or
+        "Spotify" or similar.
+
+    "authorization_headers()"
+        Returns the HTTP header name and value the specific site requires
+        for authentication. For example, in GoogleDrive's case, the values
+        are:
+
+            AuthorizationBearer xxxxx.yyy
+
+        The method is used to pass the authentication header key and value
+        to an otherwise unauthenticated web request, like
+
+            my $resp = $ua->get( $url, $oauth->authorization_headers );
+
+    "token_expired()"
+        (Internal) Check if the access token is expired and will be
+        refreshed on the next call of "authorization_headers()".
+
+    "token_expire()"
+        Force the expiration of the access token, so that the next request
+        obtains a new one.
 
 LEGALESE
     Copyright 2014 by Mike Schilli, all rights reserved. This program is
