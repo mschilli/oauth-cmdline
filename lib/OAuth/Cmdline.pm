@@ -24,11 +24,12 @@ has homedir => (
   is      => "ro",
   default => glob '~',
 );
-has login_uri => ( is => "rw" );
-has site      => ( is => "rw" );
-has scope     => ( is => "rw" );
-has token_uri => ( is => "rw" );
-has redir_uri => ( is => "rw" );
+has login_uri   => ( is => "rw" );
+has site        => ( is => "rw" );
+has scope       => ( is => "rw" );
+has token_uri   => ( is => "rw" );
+has redir_uri   => ( is => "rw" );
+has access_type => ( is => "rw" );
 
 ###########################################
 sub redirect_uri {
@@ -60,6 +61,8 @@ sub full_login_uri {
       response_type => "code",
       redirect_uri  => $self->redirect_uri(),
       scope         => $self->scope(),
+      ($self->access_type() ?
+          (access_type => $self->access_type()) : ()),
     );
 
     return $full_login_uri;

@@ -1,8 +1,11 @@
 ######################################################################
 Revision history for Perl extension OAuth::Cmdline
 
-0.04 (not yet released)
+0.04 (2014/10/08)
     (ms) umask() call now localized
+    (ms) Added access_type=offline ([rt.cpan.org #99372]) since Google
+         apparently won't sent a refresh token in some cases if it's not
+         set.
 
 0.03  2014/09/27
     (ms) Added token_expire to force a refresh of the access token
