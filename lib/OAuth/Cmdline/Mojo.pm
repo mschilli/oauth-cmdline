@@ -52,6 +52,17 @@ sub callback {
 ###########################################
   my ( $self ) = @_;
 
+  if( $self->param( "oauth_token" ) ) {
+  } elsif( $self->param( "code" ) ) {
+  } else {
+      LOGDIE "Callback called with unknown parameters";
+  }
+
+  print "oauth_token: ", $self->param( "oauth_token" ), "\n";
+  print "oauth_verifier: ", $self->param( "oauth_verifier" ), "\n";
+
+  return;
+
   my $code = $self->param( "code" );
 
   $self->app->{ oauth }->tokens_collect( $code );

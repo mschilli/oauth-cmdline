@@ -1,0 +1,24 @@
+#!/usr/local/bin/perl -w
+###########################################
+# tumblr-token-init
+# Mike Schilli, 2014 (m@perlmeister.com)
+###########################################
+use strict;
+use lib 'lib';
+
+use OAuth::Cmdline::Tumblr;
+use OAuth::Cmdline::Mojo;
+
+my $oauth = OAuth::Cmdline::Tumblr->new(
+    client_id     => "",
+    client_secret => "",
+    login_uri     => "http://www.tumblr.com/oauth/authorize",
+    token_uri     => "http://www.tumblr.com/oauth/request_token",
+    access_uri    => "http://www.tumblr.com/oauth/access_token",
+);
+
+my $app = OAuth::Cmdline::Mojo->new(
+    oauth => $oauth,
+);
+
+$app->start( 'daemon', '-l', $oauth->local_uri );

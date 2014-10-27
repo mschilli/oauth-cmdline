@@ -29,6 +29,7 @@ has site        => ( is => "rw" );
 has scope       => ( is => "rw" );
 has token_uri   => ( is => "rw" );
 has redir_uri   => ( is => "rw" );
+has access_uri  => ( is => "rw" );
 has access_type => ( is => "rw" );
 
 ###########################################
