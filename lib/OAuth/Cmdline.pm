@@ -280,14 +280,21 @@ web services requiring OAuth access tokens.
 While C<OAuth::Cmdline> has been envisioned to work with 
 various OAuth-controlled web services, it is currently tested with the
 following services, shown below with their subclasses:
-=item OAuth::Cmdline::GoogleDrive
-Google Drive
-=item OAuth::Cmdline::Spotify
-Spotify
-=item OAuth::CmdLine::MicrosoftOnline
-Azure AD and other OAuth2-authenticated services that use the Microsoft
+
+=over
+
+=item B<OAuth::Cmdline::GoogleDrive>
+- Google Drive
+
+=item B<OAuth::Cmdline::Spotify>
+- Spotify
+
+=item B<OAuth::CmdLine::MicrosoftOnline>
+- Azure AD and other OAuth2-authenticated services that use the Microsoft
 Online common authentication endpoint (tested with Azure AD via the Graph
 API)
+
+=back
 
 But stay tuned, I'll refactor the site-specific parts of the
 code soon, so that it'll work with Evernote, Tumblr and others as 

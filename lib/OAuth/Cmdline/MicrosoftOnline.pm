@@ -31,13 +31,31 @@ This class overrides methods of C<OAuth::Cmdline> if Microsoft Online's Web API
 requires it.
 
 To use this module with Azure AD:
-- Set up a temporary web service for callbacks as described in C<OAuth::Cmdline and as in eg/microsoft-online-token-init
-- Sign up for Azure AD for your Office 365 (free).
-- Add an Azure AD app of type Web, with callbacks pointing to your temporary web service
-- Retrieve the ID and key (secret) from the app page
-- Update your web service with the ID and secret and start it
-- Go to your web service and follow the link
-- Authenticate to O365
+
+=over
+
+=item *
+Set up a temporary web service for callbacks as described in C<OAuth::Cmdline> and as in eg/microsoft-online-token-init
+
+=item *
+Sign up for Azure AD for your Office 365 (free).
+
+=item *
+Add an Azure AD app of type Web, with callbacks pointing to your temporary web service
+
+=item *
+Retrieve the ID and key (secret) from the app page
+
+=item *
+Update your web service with the ID and secret and start it
+
+=item *
+Go to your web service and follow the link
+
+=item *
+Authenticate to O365
+
+=back
 
 Your web service will retrieve the tokens and store them. You can then use
 
@@ -49,7 +67,7 @@ Example code is in the eg folder
 
 =head1 LEGALESE
 
-Copyright 2015 by Mike Schilli, all rights reserved.
+Copyright 2015 Mike Schilli, all rights reserved.
 This program is free software, you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
