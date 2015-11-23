@@ -1,0 +1,23 @@
+#!/usr/local/bin/perl -w
+###########################################
+# microsoft-online-token-init
+# Ian Gibbs, 2015
+###########################################
+use strict;
+use lib 'lib';
+
+use OAuth::Cmdline::MicrosoftOnline;
+use OAuth::Cmdline::Mojo;
+
+my $oauth = OAuth::Cmdline::GoogleDrive->new(
+    client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    client_secret => "YYYYYYYYYYYYYYYYYYYYYYYY",
+    login_uri     => "https://login.microsoftonline.com/common/oauth2/authorize",
+    token_uri     => "https://login.microsoftonline.com/common/oauth2/token",
+);
+
+my $app = OAuth::Cmdline::Mojo->new(
+    oauth => $oauth,
+);
+
+$app->start( 'daemon', '-l', $oauth->local_uri );

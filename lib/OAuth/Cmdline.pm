@@ -12,7 +12,7 @@ use JSON qw( from_json );
 use MIME::Base64;
 use Moo;
 
-our $VERSION = "0.04";
+our $VERSION = "0.05";
 
 has client_id     => ( is => "ro" );
 has client_secret => ( is => "ro" );
@@ -278,15 +278,20 @@ web services requiring OAuth access tokens.
 =head1 WARNING: LIMITED ALPHA RELEASE
 
 While C<OAuth::Cmdline> has been envisioned to work with 
-various OAuth-controlled web services, it currently only works with the
-Google Drive API and Spotify. 
+various OAuth-controlled web services, it is currently tested with the
+following services, shown below with their subclasses:
+=item OAuth::Cmdline::GoogleDrive
+Google Drive
+=item OAuth::Cmdline::Spotify
+Spotify
+=item OAuth::CmdLine::MicrosoftOnline
+Azure AD and other OAuth2-authenticated services that use the Microsoft
+Online common authentication endpoint (tested with Azure AD via the Graph
+API)
+
 But stay tuned, I'll refactor the site-specific parts of the
 code soon, so that it'll work with Evernote, Tumblr and others as 
 well. Hey, or send me a pull request if you want to beat me to it! :)
-So far the following subclasses are available:
-
-    OAuth::Cmdline::GoogleDrive
-    OAuth::Cmdline::Spotify
 
 If you want to use this module for a different service, go ahead and try
 it, it might just as well work. In this case, specify the C<site> parameter,
