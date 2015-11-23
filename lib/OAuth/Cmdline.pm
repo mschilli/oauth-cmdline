@@ -358,7 +358,8 @@ include it in the request to the web service.
 =item C<new()>
 
 Instantiate a new OAuth::Cmdline::XXX object. XXX stands for the specific
-site's implementation, and can be "GoogleDrive" or "Spotify" or similar.
+site's implementation, and can be "GoogleDrive" or one of the other
+subclasses listed above.
 
 =item C<authorization_headers()>
 
