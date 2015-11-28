@@ -1,10 +1,13 @@
 Changes
 eg/google-drive-files
 eg/google-drive-token-init
+eg/microsoft-online-token-init
+eg/microsoft-online-users
 eg/spotify-token-init
 eg/spotify-user-playlists
 lib/OAuth/Cmdline.pm
 lib/OAuth/Cmdline/GoogleDrive.pm
+lib/OAuth/Cmdline/MicrosoftOnline.pm
 lib/OAuth/Cmdline/Mojo.pm
 lib/OAuth/Cmdline/Spotify.pm
 lib/OAuth/Cmdline/templates/main.html.ep
