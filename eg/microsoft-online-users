@@ -16,7 +16,7 @@ my $domain = "";				# The domain you have hosted in Office 365
 
 die("Variable \$domain has not been set. Edit this script before running it\n") unless (length($domain) > 3);
 
-my $oauth = OAuth::Cmdline::MicrosoftOnline->new( );
+my $oauth = OAuth::Cmdline::MicrosoftOnline->new( resource => "https://graph.windows.net" );
 
 my $ua = LWP::UserAgent->new();
 $ua->default_header( 
