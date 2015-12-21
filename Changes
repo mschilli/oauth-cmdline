@@ -3,6 +3,8 @@ Revision history for Perl extension OAuth::Cmdline
 
 0.05 (not yet released)
     (ms) Ian Gibbs added support for Microsoft Online
+    (ms) Added resource parameter for Microsoft Online as MS seem to
+         have made it compulsory now
 
 0.04 (2014/10/08)
     (ms) umask() call now localized
