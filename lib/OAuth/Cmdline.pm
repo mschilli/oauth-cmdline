@@ -203,19 +203,27 @@ sub cache_write {
 }
 
 ###########################################
+sub tokens_get_additional_params {
+###########################################
+    my( $self, $params ) = @_;
+
+    return $params;
+}
+
+###########################################
 sub tokens_get {
 ###########################################
     my( $self, $code ) = @_;
 
     my $req = &HTTP::Request::Common::POST(
-        $self->token_uri,
+        $self->token_uri, $self->tokens_get_additional_params(
         [
             code          => $code,
             client_id     => $self->client_id,
             client_secret => $self->client_secret,
             redirect_uri  => $self->redirect_uri,
             grant_type    => 'authorization_code',
-        ]
+        ])
     );
 
     my $ua = LWP::UserAgent->new();
@@ -230,6 +238,7 @@ sub tokens_get {
             $data->{ expires_in } );
     }
 
+    DEBUG $resp->content();
     LOGDIE $resp->status_line();
     return undef;
 }
@@ -324,8 +333,8 @@ Then, run the following script (the example uses the Spotify web service)
     my $oauth = OAuth::Cmdline::GoogleDrive->new(
         client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         client_secret => "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
-	login_uri     => "https://accounts.google.com/o/oauth2/auth",
-	token_uri     => "https://accounts.google.com/o/oauth2/token",
+        login_uri     => "https://accounts.google.com/o/oauth2/auth",
+        token_uri     => "https://accounts.google.com/o/oauth2/token",
         scope         => "user-read-private",
     );
     

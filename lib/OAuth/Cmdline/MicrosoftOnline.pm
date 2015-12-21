@@ -5,6 +5,12 @@ use strict;
 use warnings;
 use MIME::Base64;
 use base qw( OAuth::Cmdline );
+use Moo;
+
+has resource => (
+  is => "rw",
+  required => 1,
+);
 
 ###########################################
 sub site {
@@ -14,6 +20,16 @@ sub site {
 
 1;
 
+###########################################
+sub tokens_get_additional_params {
+###########################################
+    my( $self, $params ) = @_;
+
+    push(@$params, resource => $self->resource);
+
+    return $params;
+}
+
 __END__
 
 =head1 NAME
@@ -22,13 +38,15 @@ OAuth::Cmdline::MicrosoftOnline - Microsoft Online-specific settings for OAuth::
 
 =head1 SYNOPSIS
 
-    my $oauth = OAuth::Cmdline::MicrosoftOnline->new( );
+    my $oauth = OAuth::Cmdline::MicrosoftOnline->new( resource => "https://graph.windows.net", ... );
     $oauth->access_token();
 
 =head1 DESCRIPTION
 
 This class overrides methods of C<OAuth::Cmdline> if Microsoft Online's Web API 
 requires it.
+
+The parameter 'resource' is mandatory, and is poorly described at L<https://msdn.microsoft.com/en-us/library/azure/dn645542.aspx>. It tells the OAuth API what protected resource you are trying to access. For example, to access Azure Graph (to manage user accounts in Azure AD etc.), the correct resource URI is C<https://graph.windows.net>. A URI does not have to be a URL, but Microsoft choose to use URLs for their URIs, so if you are trying to access a different endpoint protected by the Microsoft Online OAuth system, then it will probably look like a URL.
 
 To use this module with Azure AD:
 
