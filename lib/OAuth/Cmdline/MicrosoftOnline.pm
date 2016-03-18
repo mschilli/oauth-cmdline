@@ -30,6 +30,20 @@ sub tokens_get_additional_params {
     return $params;
 }
 
+###########################################
+sub update_refresh_token {
+###########################################
+    my( $self, $cache, $data ) = @_;
+
+    # MS Online returns a new refresh token with every access token.
+    # We need to use this new token each time otherwise in 14 days
+    # we have to re-authorise. By updating the refresh token, we
+    # get 90 days
+    $cache->{ refresh_token } = $data->{ refresh_token };
+
+    return ($cache, $data);
+}
+
 __END__
 
 =head1 NAME

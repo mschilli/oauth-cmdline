@@ -11,6 +11,7 @@ use Log::Log4perl qw(:easy);
 use JSON qw( from_json );
 use MIME::Base64;
 use Moo;
+use Data::Dumper;
 
 our $VERSION = "0.05";
 
@@ -134,12 +135,22 @@ sub token_refresh {
         $cache->{ access_token } = $data->{ access_token };
         $cache->{ expires }      = $data->{ expires_in } + time();
 
+	($cache, $data) = $self->update_refresh_token($cache, $data);
+
         $self->cache_write( $cache );
         return 1;
     }
 
     ERROR "Token refresh failed: ", $resp->status_line();
     return undef;
+}
+
+###########################################
+sub update_refresh_token {
+###########################################
+    my( $self, $cache, $data ) = @_;
+    
+    return ($cache, $data);
 }
 
 ###########################################
@@ -333,8 +344,8 @@ Then, run the following script (the example uses the Spotify web service)
     my $oauth = OAuth::Cmdline::GoogleDrive->new(
         client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         client_secret => "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
-        login_uri     => "https://accounts.google.com/o/oauth2/auth",
-        token_uri     => "https://accounts.google.com/o/oauth2/token",
+        login_uri     => "https://accounts.spotify.com/authorize",
+        token_uri     => "https://accounts.spotify.com/api/token",
         scope         => "user-read-private",
     );
     
