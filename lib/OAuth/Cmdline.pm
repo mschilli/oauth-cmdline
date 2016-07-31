@@ -59,12 +59,16 @@ sub full_login_uri {
     $full_login_uri->query_form (
       client_id     => $self->client_id(),
       response_type => "code",
-      redirect_uri  => $self->redirect_uri(),
+      (defined $self->redirect_uri() ?
+        ( redirect_uri  => $self->redirect_uri() ) :
+        ()
+      ),
       scope         => $self->scope(),
       ($self->access_type() ?
           (access_type => $self->access_type()) : ()),
     );
 
+    DEBUG "full login uri: $full_login_uri";
     return $full_login_uri;
 }
 
