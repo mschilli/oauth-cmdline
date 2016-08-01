@@ -226,8 +226,9 @@ sub tokens_get {
     my $resp = $ua->request($req);
 
     if( $resp->is_success() ) {
-        my $data = 
-        from_json( $resp->content() );
+        my $json = $resp->content();
+        DEBUG "Received: [$json]", 
+        my $data = from_json( $json );
 
         return ( $data->{ access_token }, 
             $data->{ refresh_token },
