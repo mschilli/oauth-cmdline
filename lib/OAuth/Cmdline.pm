@@ -6,6 +6,7 @@ use warnings;
 use URI;
 use YAML qw( DumpFile LoadFile );
 use HTTP::Request::Common;
+use URI;
 use LWP::UserAgent;
 use Log::Log4perl qw(:easy);
 use JSON qw( from_json );
@@ -30,6 +31,7 @@ has scope       => ( is => "rw" );
 has token_uri   => ( is => "rw" );
 has redir_uri   => ( is => "rw" );
 has access_type => ( is => "rw" );
+has raise_error => ( is => "rw" );
 
 ###########################################
 sub redirect_uri {
@@ -257,6 +259,29 @@ sub tokens_collect {
     };
 
     $self->cache_write( $cache );
+}
+
+###########################################
+sub http_get {
+###########################################
+    my( $self, $url, $query ) = @_;
+
+    my $ua = LWP::UserAgent->new();
+
+    my $uri = URI->new( $url );
+    $uri->query_form( @$query ) if defined $query;
+
+    my $resp = $ua->get( $uri, 
+        $self->authorization_headers, @$query );
+
+    if( $resp->is_error ) {
+        if( $self->raise_error ) {
+            die $resp->message;
+        }
+        return undef;
+    }
+
+    return $resp->decoded_content;
 }
 
 1;

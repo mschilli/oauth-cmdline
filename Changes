@@ -5,6 +5,8 @@ Revision history for Perl extension OAuth::Cmdline
     (ms) Ian Gibbs added support for Microsoft Online
     (ms) Automatic.com OAuth flow now supported including 
          eg/automatic-token-init script.
+    (ms) Added http_get() method for submitting calls including the
+         authentication header
 
 0.04 (2014/10/08)
     (ms) umask() call now localized
