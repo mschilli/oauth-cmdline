@@ -347,6 +347,12 @@ following services, shown below with their subclasses:
 Online common authentication endpoint (tested with Azure AD via the Graph
 API)
 
+=item B<OAuth::Cmdline::Automatic>
+- Automatic.com car plugin
+
+=item B<OAuth::Cmdline::Youtube>
+- Youtube viewer reports
+
 =back
 
 But stay tuned, I'll refactor the site-specific parts of the

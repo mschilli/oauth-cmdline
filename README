@@ -18,17 +18,19 @@ DESCRIPTION
 
 WARNING: LIMITED ALPHA RELEASE
     While "OAuth::Cmdline" has been envisioned to work with various
-    OAuth-controlled web services, it is currently tested with the
-    following services, shown below with their subclasses:
+    OAuth-controlled web services, it is currently tested with the following
+    services, shown below with their subclasses:
 
-    * OAuth::Cmdline::GoogleDrive - Google Drive
-    * OAuth::Cmdline::Spotify - Spotify
-    * OAuth::CmdLine::MicrosoftOnline -  Azure AD and other 
-      OAuth2-authenticated services that use the Microsoft Online common
-      authentication endpoint (tested with Azure AD via the Graph API)
+    OAuth::Cmdline::GoogleDrive - Google Drive
+    OAuth::Cmdline::Spotify - Spotify
+    OAuth::CmdLine::MicrosoftOnline - Azure AD and other
+    OAuth2-authenticated services that use the Microsoft Online common
+    authentication endpoint (tested with Azure AD via the Graph API)
+    OAuth::Cmdline::Automatic - Automatic.com car plugin
+    OAuth::Cmdline::Youtube - Youtube viewer reports
 
     But stay tuned, I'll refactor the site-specific parts of the code soon,
-    so that it'll work with Evernote, Tumblr and others as well. Hey, or 
+    so that it'll work with Evernote, Tumblr and others as well. Hey, or
     send me a pull request if you want to beat me to it! :)
 
     If you want to use this module for a different service, go ahead and try
