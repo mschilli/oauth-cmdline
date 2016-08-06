@@ -66,16 +66,26 @@ user when that time comes and they have to re-grant access for the app.
 
 =head1 EXAMPLE
 
-After registering the app (note the first item above), run the
+After registering the app (note the first item above), put the values
+for client_id and client_secret in YAML format 
+into C<.automatic.yml> in your home directory:
+
+    # ~/.automatic.yml
+    client_id: XXXXX
+    client_secret: YYYY
+
+Then run the
 
     eg/automatic-token-init
 
 script included in this distribution and
-then point your browser to C<http://localhost:9092>. Then follow the
+point your browser to C<http://localhost:8082>. Then follow the
 authentication flow until redirected back to localhost. By then,
-the script will have created the file C<~/.automatic.yml> which will
-contain the access token needed for further authenticated calls,
-for example:
+the script will have updated the file C<~/.automatic.yml> to
+contain the access token needed for further authenticated calls. 
+
+After that, any script like the following can access your Automatic
+data from the server:
 
     use OAuth::Cmdline::Automatic;
     use LWP::UserAgent;
