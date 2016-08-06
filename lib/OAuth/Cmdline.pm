@@ -284,6 +284,29 @@ sub http_get {
     return $resp->decoded_content;
 }
 
+###########################################
+sub client_init_conf_check {
+###########################################
+    my( $self, $url ) = @_;
+
+    my $conf = { };
+    if( -f $self->cache_file_path ) {
+        $conf = $self->cache_read();
+    }
+
+    if( !exists $conf->{ client_id } or
+        !exists $conf->{ client_secret } ) {
+        die "You need to register your application on " .
+          "$url and add the client_id and " .
+          "client_secret entries to " . $self->cache_file_path . "\n";
+    }
+    
+    $self->client_id( $conf->{ client_id } );
+    $self->client_secret( $conf->{ client_secret } );
+
+    return 1;
+}
+
 1;
 
 __END__

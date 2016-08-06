@@ -4,7 +4,8 @@
 # Mike Schilli, 2016 (m@perlmeister.com)
 ###########################################
 use strict;
-use lib 'lib';
+use FindBin qw( $Bin );
+use lib "$Bin/../lib";
 use Log::Log4perl qw(:easy);
 # Log::Log4perl->easy_init($DEBUG);
 
@@ -19,20 +20,7 @@ my $oauth = OAuth::Cmdline::Automatic->new(
                      "scope:trip scope:behavior",
 );
 
-my $conf = { };
-if( -f $oauth->cache_file_path ) {
-    $conf = $oauth->cache_read();
-}
-
-if( !exists $conf->{ client_id } or
-    !exists $conf->{ client_secret } ) {
-    die "You need to register your application on " .
-      "https://developer.automatic.com and add the client_id and " .
-      "client_secret entries to " . $oauth->cache_file_path . "\n";
-}
-
-$oauth->client_id( $conf->{ client_id } );
-$oauth->client_secret( $conf->{ client_secret } );
+$oauth->client_init_conf_check( "https://developer.automatic.com" );
 
 my $app = OAuth::Cmdline::Mojo->new(
     oauth => $oauth,
