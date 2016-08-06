@@ -1,22 +1,20 @@
 #!/usr/local/bin/perl -w
-###########################################
-# google-drive-token-init
-# Mike Schilli, 2014 (m@perlmeister.com)
-###########################################
 use strict;
-use lib 'lib';
+use FindBin qw( $Bin );
+use lib "$Bin/../lib";
 
-use OAuth::Cmdline::GoogleDrive;
+use OAuth::Cmdline::Youtube;
 use OAuth::Cmdline::Mojo;
 
-my $oauth = OAuth::Cmdline::GoogleDrive->new(
-    client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    client_secret => "YYYYYYYYYYYYYYYYYYYYYYYY",
+my $oauth = OAuth::Cmdline::Youtube->new(
     login_uri     => "https://accounts.google.com/o/oauth2/auth",
     token_uri     => "https://accounts.google.com/o/oauth2/token",
-    scope         => "https://www.googleapis.com/auth/drive",
+    scope         => "https://www.googleapis.com/auth/youtube.readonly",
     access_type   => "offline",
 );
+
+$oauth->client_init_conf_check( 
+    "https://developers.google.com/identity/protocols/OAuth2?csw=1" );
 
 my $app = OAuth::Cmdline::Mojo->new(
     oauth => $oauth,
@@ -28,15 +26,15 @@ __END__
 
 =head1 NAME
 
-google-drive-token-init - Google0Drive-specific OAuth Token Dance
+youtube-token-init - Youtube-specific OAuth Token Dance
 
 =head1 SYNOPSIS
 
-    $ google-drive-token-init
+    $ youtube-token-init
 
 =head1 DESCRIPTION
 
-See the OAuth::Cmdline::GoogleDrive documentation.
+See the OAuth::Cmdline::Youtube documentation.
 
 =head1 LEGALESE
 
