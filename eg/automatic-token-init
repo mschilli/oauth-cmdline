@@ -12,14 +12,27 @@ use OAuth::Cmdline::Automatic;
 use OAuth::Cmdline::Mojo;
 
 my $oauth = OAuth::Cmdline::Automatic->new(
-    client_id     => "XXXXXXXXXXXXXXXXXXXX",
-    client_secret => "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
     login_uri     => "https://accounts.automatic.com/oauth/authorize",
     token_uri     => "https://accounts.automatic.com/oauth/access_token",
     scope         => "scope:public scope:user:profile scope:location " .
                      "scope:vehicle:profile scope:vehicle:events " .
                      "scope:trip scope:behavior",
 );
+
+my $conf = { };
+if( -f $oauth->cache_file_path ) {
+    $conf = $oauth->cache_read();
+}
+
+if( !exists $conf->{ client_id } or
+    !exists $conf->{ client_secret } ) {
+    die "You need to register your application on " .
+      "https://developer.automatic.com and add the client_id and " .
+      "client_secret entries to " . $oauth->cache_file_path . "\n";
+}
+
+$oauth->client_id( $conf->{ client_id } );
+$oauth->client_secret( $conf->{ client_secret } );
 
 my $app = OAuth::Cmdline::Mojo->new(
     oauth => $oauth,

@@ -15,8 +15,8 @@ use Moo;
 
 our $VERSION = "0.05";
 
-has client_id     => ( is => "ro" );
-has client_secret => ( is => "ro" );
+has client_id     => ( is => "rw" );
+has client_secret => ( is => "rw" );
 has local_uri      => ( 
   is      => "rw",
   default => "http://localhost:8082",
