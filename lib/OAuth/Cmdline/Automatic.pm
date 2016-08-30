@@ -31,12 +31,13 @@ OAuth::Cmdline::Automatic - Automatic.com-specific OAuth oddities
 
 =head1 SYNOPSIS
 
-    # don't use this directly
+    my $oauth = OAuth::Cmdline::Automatic->new( );
+    $oauth->access_token();
 
 =head1 DESCRIPTION
 
-This class overrides methods of C<OAuth::Cmdline> if Automatic.com's Web API 
-deviates from standard OAuth. 
+This class overrides methods of C<OAuth::Cmdline> because 
+Automatic.com's Web API deviates from standard OAuth.
 
 Automatic.com deviates from the standard OAuth protocol in two significant
 ways listed below.
