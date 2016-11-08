@@ -13,7 +13,7 @@ use JSON qw( from_json );
 use MIME::Base64;
 use Moo;
 
-our $VERSION = "0.05";
+our $VERSION = "0.06";
 
 has client_id     => ( is => "rw" );
 has client_secret => ( is => "rw" );

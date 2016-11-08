@@ -1,6 +1,10 @@
 ######################################################################
 Revision history for Perl extension OAuth::Cmdline
 
+0.06 (not yet released)
+    (ms) Added support for Smartthings (untested because token aren't
+         issued).
+
 0.05 (2016/08/05)
     (ms) Ian Gibbs added support for Microsoft Online
     (ms) Automatic.com OAuth flow now supported including 
