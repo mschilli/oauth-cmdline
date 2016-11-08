@@ -31,6 +31,28 @@ OAuth::Cmdline::Smartthings - Smartthings-specific OAuth oddities
 This class overrides methods of C<OAuth::Cmdline> to comply with
 Smartthings's Web API.
 
+To register with Smartthings, go to 
+
+    https://graph-na02-useast1.api.smartthings.com (US)
+    https://graph-eu01-euwest1.api.smartthings.com (UK)
+
+and create a new app, enable the "OAuth" section, copy the 
+client ID and client secret to your C<~/.smartthings.yml> file:
+
+    client_id: xxx
+    client_secret: yyy
+
+Also use
+
+    http://localhost:8082/callback
+
+as a "redirect URI" (not optionial as the label would suggest) and then
+run C<eg/smartthings-token-init> and point your browser to 
+
+    http://localhost:8082
+
+Then click the login link and follow the flow.
+
 =head1 LEGALESE
 
 Copyright 2016 by Mike Schilli, all rights reserved.
