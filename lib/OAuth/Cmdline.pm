@@ -25,6 +25,7 @@ has homedir => (
   is      => "ro",
   default => glob '~',
 );
+has base_uri    => ( is => "rw" );
 has login_uri   => ( is => "rw" );
 has site        => ( is => "rw" );
 has scope       => ( is => "rw" );
@@ -270,6 +271,8 @@ sub http_get {
 
     my $uri = URI->new( $url );
     $uri->query_form( @$query ) if defined $query;
+
+    DEBUG "Fetching $uri";
 
     my $resp = $ua->get( $uri, 
         $self->authorization_headers, @$query );
