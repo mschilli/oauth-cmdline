@@ -17,8 +17,7 @@ Log::Log4perl->easy_init( $DEBUG );
 my $base_url = "https://graph-na02-useast1.api.smartthings.com";
 
 my $oauth = OAuth::Cmdline::Smartthings->new(
-  login_uri => "$base_url/oauth/authorize",
-  token_uri => "$base_url/oauth/token",
+  base_url => $base_url,
   scope     => "app",
 );
 
