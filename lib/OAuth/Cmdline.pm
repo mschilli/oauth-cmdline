@@ -356,6 +356,9 @@ API)
 =item B<OAuth::Cmdline::Youtube>
 - Youtube viewer reports
 
+=item B<OAuth::Cmdline::Smartthings>
+- Smartthings API
+
 =back
 
 But stay tuned, I'll refactor the site-specific parts of the

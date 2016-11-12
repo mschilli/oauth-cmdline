@@ -4,6 +4,8 @@ eg/google-drive-files
 eg/google-drive-token-init
 eg/microsoft-online-token-init
 eg/microsoft-online-users
+eg/smartthings-fetch
+eg/smartthings-token-init
 eg/spotify-token-init
 eg/spotify-user-playlists
 eg/youtube-channels
@@ -13,6 +15,7 @@ lib/OAuth/Cmdline/Automatic.pm
 lib/OAuth/Cmdline/GoogleDrive.pm
 lib/OAuth/Cmdline/MicrosoftOnline.pm
 lib/OAuth/Cmdline/Mojo.pm
+lib/OAuth/Cmdline/Smartthings.pm
 lib/OAuth/Cmdline/Spotify.pm
 lib/OAuth/Cmdline/templates/main.html.ep
 lib/OAuth/Cmdline/Youtube.pm
@@ -23,3 +26,4 @@ MYMETA.json
 MYMETA.yml
 README
 t/001Basic.t
+t/002Smartthings.t
