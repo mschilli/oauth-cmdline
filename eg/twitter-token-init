@@ -1,0 +1,24 @@
+#!/usr/local/bin/perl -w
+###########################################
+# twitter-token-init
+# Ian Gibbs, 2016
+###########################################
+use strict;
+use lib 'lib';
+
+use OAuth::Cmdline::GoogleDrive;
+use OAuth::Cmdline::Mojo;
+
+my $oauth = OAuth::Cmdline::GoogleDrive->new(
+    #client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    client_id     => "TOUGqkZEdv9uB4cYXLkIqDmns",
+    client_secret => "lZqciCbR3ccqlDx8fTIVNgbgNmtX6TRHpFbsP9oQrHGI9X4OhD",
+    login_uri     => "https://api.twitter.com/oauth/authorize",
+    token_uri     => "https://api.twitter.com/oauth2/token",
+);
+
+my $app = OAuth::Cmdline::Mojo->new(
+    oauth => $oauth,
+);
+
+$app->start( 'daemon', '-l', $oauth->local_uri );
