@@ -361,10 +361,6 @@ API)
 
 =back
 
-But stay tuned, I'll refactor the site-specific parts of the
-code soon, so that it'll work with Evernote, Tumblr and others as 
-well. Hey, or send me a pull request if you want to beat me to it! :)
-
 If you want to use this module for a different service, go ahead and try
 it, it might just as well work. In this case, specify the C<site> parameter,
 which determines the name of the cache file with the access token and
