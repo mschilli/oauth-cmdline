@@ -257,7 +257,19 @@ sub tokens_get {
             $data->{ expires_in } );
     }
 
-    LOGDIE $resp->status_line();
+    my $error;
+    eval {
+        my $json = $resp->content();
+        DEBUG "Received: [$json]",
+        my $data = from_json( $json );
+        $error = $data->{'error'};
+    };
+    # An exception will be thrown if the content is not JSON
+    if ($@) {
+        $error = $resp->content();
+    }
+
+    LOGDIE $resp->status_line() . ' - ' . $error . "\n";
     return undef;
 }
 

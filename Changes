@@ -2,25 +2,28 @@
 Revision history for Perl extension OAuth::Cmdline
 
 {{$NEXT}}
+    - Throw more descriptive errors when getting a token
+    (thanks Tim Mullin)
     - Added OAuth::Cmdline::CustomFile module to allow a specific credential file
+    (thanks Tim Mullin)
     - Add basic Continuous Integration workflow
     - Convert distribution to use Dist::Zilla
     - Adjust dependencies list (need Perl >= 5.016 for Mojolicious)
     - Update MSOnline tests to account for changes to API URL and request format
-    ( thanks Ian Gibbs)
+    (thanks Ian Gibbs)
     - Update documentation
     - Adjust MANIFEST
-    ( thanks Szymon Nieznański)
+    (thanks Szymon Nieznański)
     - Add mandatory resource param to msonline token initialiser
-    ( thanks Ian Gibbs)
+    (thanks Ian Gibbs)
     - Add tests for MSOnline
-    ( thanks Ian Gibbs)
+    (thanks Ian Gibbs)
     - Add some "no-op" token methods
-    ( thanks Ian Gibbs)
+    (thanks Ian Gibbs)
     - Fix incorrect statement in OAuth::Cmdline
-    ( thanks Blaine Motsinger)
+    (thanks Blaine Motsinger)
     - Add LICENSE
-    ( thanks Mohammad S Anwar)
+    (thanks Mohammad S Anwar)
 
 0.06 (2016/11/11)
     (ms) Added support for Smartthings Web API
