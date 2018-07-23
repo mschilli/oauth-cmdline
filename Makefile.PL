@@ -15,6 +15,7 @@ my $meta_merge = {
 WriteMakefile(
     'NAME'         => 'OAuth::Cmdline',
     'VERSION_FROM' => 'lib/OAuth/Cmdline.pm', # finds $VERSION
+    'LICENSE'      => 'perl_5',
     'PREREQ_PM'    => {
         Log::Log4perl         => 1,
         Moo                   => 1,
