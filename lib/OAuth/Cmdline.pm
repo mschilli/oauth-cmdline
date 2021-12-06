@@ -141,12 +141,22 @@ sub token_refresh {
         $cache->{ access_token } = $data->{ access_token };
         $cache->{ expires }      = $data->{ expires_in } + time();
 
+	($cache, $data) = $self->update_refresh_token($cache, $data);
+
         $self->cache_write( $cache );
         return 1;
     }
 
     ERROR "Token refresh failed: ", $resp->status_line();
     return undef;
+}
+
+###########################################
+sub update_refresh_token {
+###########################################
+    my( $self, $cache, $data ) = @_;
+    
+    return ($cache, $data);
 }
 
 ###########################################
@@ -210,19 +220,27 @@ sub cache_write {
 }
 
 ###########################################
+sub tokens_get_additional_params {
+###########################################
+    my( $self, $params ) = @_;
+
+    return $params;
+}
+
+###########################################
 sub tokens_get {
 ###########################################
     my( $self, $code ) = @_;
 
     my $req = &HTTP::Request::Common::POST(
-        $self->token_uri,
+        $self->token_uri, $self->tokens_get_additional_params(
         [
             code          => $code,
             client_id     => $self->client_id,
             client_secret => $self->client_secret,
             redirect_uri  => $self->redirect_uri,
             grant_type    => 'authorization_code',
-        ]
+        ])
     );
 
     my $ua = LWP::UserAgent->new();
