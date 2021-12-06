@@ -363,7 +363,7 @@ following services, shown below with their subclasses:
 =item B<OAuth::Cmdline::Spotify>
 - Spotify
 
-=item B<OAuth::CmdLine::MicrosoftOnline>
+=item B<OAuth::Cmdline::MicrosoftOnline>
 - Azure AD and other OAuth2-authenticated services that use the Microsoft
 Online common authentication endpoint (tested with Azure AD via the Graph
 API)
