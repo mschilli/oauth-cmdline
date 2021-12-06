@@ -14,6 +14,7 @@ my $oauth = OAuth::Cmdline::MicrosoftOnline->new(
     client_secret => "YYYYYYYYYYYYYYYYYYYYYYYY",
     login_uri     => "https://login.microsoftonline.com/common/oauth2/authorize",
     token_uri     => "https://login.microsoftonline.com/common/oauth2/token",
+    resource	  => "https://graph.windows.net"
 );
 
 my $app = OAuth::Cmdline::Mojo->new(
