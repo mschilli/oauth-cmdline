@@ -6,6 +6,7 @@ use warnings;
 use URI;
 use YAML qw( DumpFile LoadFile );
 use HTTP::Request::Common;
+use URI;
 use LWP::UserAgent;
 use Log::Log4perl qw(:easy);
 use JSON qw( from_json );
@@ -13,10 +14,10 @@ use MIME::Base64;
 use Moo;
 use Data::Dumper;
 
-our $VERSION = "0.05";
+our $VERSION = "0.06";
 
-has client_id     => ( is => "ro" );
-has client_secret => ( is => "ro" );
+has client_id     => ( is => "rw" );
+has client_secret => ( is => "rw" );
 has local_uri      => ( 
   is      => "rw",
   default => "http://localhost:8082",
@@ -25,12 +26,14 @@ has homedir => (
   is      => "ro",
   default => glob '~',
 );
+has base_uri    => ( is => "rw" );
 has login_uri   => ( is => "rw" );
 has site        => ( is => "rw" );
 has scope       => ( is => "rw" );
 has token_uri   => ( is => "rw" );
 has redir_uri   => ( is => "rw" );
 has access_type => ( is => "rw" );
+has raise_error => ( is => "rw" );
 
 ###########################################
 sub redirect_uri {
@@ -60,12 +63,16 @@ sub full_login_uri {
     $full_login_uri->query_form (
       client_id     => $self->client_id(),
       response_type => "code",
-      redirect_uri  => $self->redirect_uri(),
+      (defined $self->redirect_uri() ?
+        ( redirect_uri  => $self->redirect_uri() ) :
+        ()
+      ),
       scope         => $self->scope(),
       ($self->access_type() ?
           (access_type => $self->access_type()) : ()),
     );
 
+    DEBUG "full login uri: $full_login_uri";
     return $full_login_uri;
 }
 
@@ -241,8 +248,9 @@ sub tokens_get {
     my $resp = $ua->request($req);
 
     if( $resp->is_success() ) {
-        my $data = 
-        from_json( $resp->content() );
+        my $json = $resp->content();
+        DEBUG "Received: [$json]", 
+        my $data = from_json( $json );
 
         return ( $data->{ access_token }, 
             $data->{ refresh_token },
@@ -272,6 +280,54 @@ sub tokens_collect {
     };
 
     $self->cache_write( $cache );
+}
+
+###########################################
+sub http_get {
+###########################################
+    my( $self, $url, $query ) = @_;
+
+    my $ua = LWP::UserAgent->new();
+
+    my $uri = URI->new( $url );
+    $uri->query_form( @$query ) if defined $query;
+
+    DEBUG "Fetching $uri";
+
+    my $resp = $ua->get( $uri, 
+        $self->authorization_headers, @$query );
+
+    if( $resp->is_error ) {
+        if( $self->raise_error ) {
+            die $resp->message;
+        }
+        return undef;
+    }
+
+    return $resp->decoded_content;
+}
+
+###########################################
+sub client_init_conf_check {
+###########################################
+    my( $self, $url ) = @_;
+
+    my $conf = { };
+    if( -f $self->cache_file_path ) {
+        $conf = $self->cache_read();
+    }
+
+    if( !exists $conf->{ client_id } or
+        !exists $conf->{ client_secret } ) {
+        die "You need to register your application on " .
+          "$url and add the client_id and " .
+          "client_secret entries to " . $self->cache_file_path . "\n";
+    }
+    
+    $self->client_id( $conf->{ client_id } );
+    $self->client_secret( $conf->{ client_secret } );
+
+    return 1;
 }
 
 1;
@@ -314,11 +370,16 @@ following services, shown below with their subclasses:
 Online common authentication endpoint (tested with Azure AD via the Graph
 API)
 
-=back
+=item B<OAuth::Cmdline::Automatic>
+- Automatic.com car plugin
 
-But stay tuned, I'll refactor the site-specific parts of the
-code soon, so that it'll work with Evernote, Tumblr and others as 
-well. Hey, or send me a pull request if you want to beat me to it! :)
+=item B<OAuth::Cmdline::Youtube>
+- Youtube viewer reports
+
+=item B<OAuth::Cmdline::Smartthings>
+- Smartthings API
+
+=back
 
 If you want to use this module for a different service, go ahead and try
 it, it might just as well work. In this case, specify the C<site> parameter,

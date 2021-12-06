@@ -39,12 +39,13 @@ OAuth::Cmdline::Spotify - Spotify-specific OAuth oddities
 
 =head1 SYNOPSIS
 
-    # don't use this directly
+    my $oauth = OAuth::Cmdline::Spotify->new( );
+    $oauth->access_token();
 
 =head1 DESCRIPTION
 
-This class overrides methods of C<OAuth::Cmdline> if Spotify's Web API 
-deviates from standard OAuth.
+This class overrides methods of C<OAuth::Cmdline> to comply with
+Spotify's Web API.
 
 =head1 LEGALESE
 
