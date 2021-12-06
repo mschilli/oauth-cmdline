@@ -25,5 +25,6 @@ MANIFEST.SKIP
 MYMETA.json
 MYMETA.yml
 README
-t/001Basic.t
+t/001Spotify.t
 t/002Smartthings.t
+t/003MicrosoftOnline.t
