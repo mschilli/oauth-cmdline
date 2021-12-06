@@ -1,10 +1,16 @@
 ######################################################################
 Revision history for Perl extension OAuth::Cmdline
 
-0.05 (not yet released)
+0.06 (2016/11/11)
+    (ms) Added support for Smartthings Web API
+
+0.05 (2016/08/05)
     (ms) Ian Gibbs added support for Microsoft Online
-    (ms) Added resource parameter for Microsoft Online as MS seem to
-         have made it compulsory now
+    (ms) Automatic.com OAuth flow now supported including 
+         eg/automatic-token-init script.
+    (ms) Added http_get() method for submitting calls including the
+         authentication header
+    (ms) Added support for Youtube analytics
 
 0.04 (2014/10/08)
     (ms) umask() call now localized
