@@ -13,7 +13,8 @@ use JSON qw( from_json );
 use MIME::Base64;
 use Moo;
 
-our $VERSION = "0.06";
+# VERSION
+# ABSTRACT: OAuth2 for command line applications using web services
 
 has client_id     => ( is => "rw" );
 has client_secret => ( is => "rw" );
@@ -141,7 +142,7 @@ sub token_refresh {
         $cache->{ access_token } = $data->{ access_token };
         $cache->{ expires }      = $data->{ expires_in } + time();
 
-	($cache, $data) = $self->update_refresh_token($cache, $data);
+    ($cache, $data) = $self->update_refresh_token($cache, $data);
 
         $self->cache_write( $cache );
         return 1;
@@ -332,10 +333,6 @@ sub client_init_conf_check {
 
 __END__
 
-=head1 NAME
-
-OAuth::Cmdline - OAuth2 for command line applications using web services
-
 =head1 SYNOPSIS
 
       # Use a site-specific class instead of the parent class, see
@@ -403,8 +400,8 @@ Then, run the following script (the example uses the Spotify web service)
     my $oauth = OAuth::Cmdline::GoogleDrive->new(
         client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         client_secret => "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
-	login_uri     => "https://accounts.google.com/o/oauth2/auth",
-	token_uri     => "https://accounts.google.com/o/oauth2/token",
+    login_uri     => "https://accounts.google.com/o/oauth2/auth",
+    token_uri     => "https://accounts.google.com/o/oauth2/token",
         scope         => "user-read-private",
     );
     
@@ -470,13 +467,3 @@ Force the expiration of the access token, so that the next request
 obtains a new one.
 
 =back
-
-=head1 LEGALESE
-
-Copyright 2014 by Mike Schilli, all rights reserved.
-This program is free software, you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
-=head1 AUTHOR
-
-2014, Mike Schilli <cpan@perlmeister.com>
