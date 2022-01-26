@@ -230,7 +230,7 @@ sub tokens_get {
 
     if( $resp->is_success() ) {
         my $json = $resp->content();
-        DEBUG "Received: [$json]", 
+        DEBUG "Received: [$json]";
         my $data = from_json( $json );
 
         return ( $data->{ access_token }, 
