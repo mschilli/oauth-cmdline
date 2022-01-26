@@ -8,3 +8,4 @@ MANIFEST.bak
 adm/release
 .git
 .gz$
+^MYMETA\.
