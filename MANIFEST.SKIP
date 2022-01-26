@@ -9,3 +9,4 @@ adm/release
 .git
 .gz$
 ^MYMETA\.
+cpanfile
