@@ -69,8 +69,8 @@ use OAuth::Cmdline::Mojo;
 my $oauth = OAuth::Cmdline::GoogleDrive->new(
     client_id     => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     client_secret => "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
-login_uri     => "https://accounts.google.com/o/oauth2/auth",
-token_uri     => "https://accounts.google.com/o/oauth2/token",
+    login_uri     => "https://accounts.google.com/o/oauth2/auth",
+    token_uri     => "https://accounts.google.com/o/oauth2/token",
     scope         => "user-read-private",
 );
 
