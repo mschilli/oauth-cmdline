@@ -2,7 +2,7 @@
 Revision history for Perl extension OAuth::Cmdline
 
 {{$NEXT}}
-
+    - Added OAuth::Cmdline::CustomFile module to allow a specific credential file
     - Add basic Continuous Integration workflow
     - Convert distribution to use Dist::Zilla
     - Adjust dependencies list (need Perl >= 5.016 for Mojolicious)
