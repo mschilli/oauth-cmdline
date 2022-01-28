@@ -2,6 +2,8 @@
 Revision history for Perl extension OAuth::Cmdline
 
 {{$NEXT}}
+
+0.07      2022-01-28 11:43:44-07:00 America/Denver
     - Throw more descriptive errors when getting a token
     (thanks Tim Mullin)
     - Added OAuth::Cmdline::CustomFile module to allow a specific credential file
