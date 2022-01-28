@@ -7,70 +7,64 @@ use 5.008;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "OAuth2 for command line applications using web services",
-  "AUTHOR" => "Mike Schilli <cpan\@perlmeister.com>",
-  "CONFIGURE_REQUIRES" => {
-    "ExtUtils::MakeMaker" => 0
-  },
-  "DISTNAME" => "OAuth-Cmdline",
-  "LICENSE" => "perl",
-  "MIN_PERL_VERSION" => "5.008",
-  "NAME" => "OAuth::Cmdline",
-  "PREREQ_PM" => {
-    "HTTP::Request::Common" => 1,
-    "JSON" => 1,
-    "LWP::UserAgent" => 1,
-    "Log::Log4perl" => 1,
-    "MIME::Base64" => 1,
-    "Mojo::Base" => 0,
-    "Moo" => 1,
-    "URI" => 1,
-    "YAML" => "0.90"
-  },
-  "TEST_REQUIRES" => {
-    "ExtUtils::MakeMaker" => 0,
-    "File::Spec" => 0,
-    "File::Temp" => 0,
-    "Test2::Bundle::Extended" => 0,
-    "Test2::Plugin::NoWarnings" => 0,
-    "Test2::Tools::Explain" => 0,
-    "Test::CPAN::Meta" => 0,
-    "Test::More" => 0,
-    "Test::NoTabs" => 0
-  },
-  "VERSION" => "0.07",
-  "test" => {
-    "TESTS" => "t/*.t"
-  }
+    "ABSTRACT"           => "OAuth2 for command line applications using web services",
+    "AUTHOR"             => "Mike Schilli <cpan\@perlmeister.com>",
+    "CONFIGURE_REQUIRES" => { "ExtUtils::MakeMaker" => 0 },
+    "DISTNAME"           => "OAuth-Cmdline",
+    "LICENSE"            => "perl",
+    "MIN_PERL_VERSION"   => "5.008",
+    "NAME"               => "OAuth::Cmdline",
+    "PREREQ_PM"          => {
+        "HTTP::Request::Common" => 1,
+        "JSON"                  => 1,
+        "LWP::UserAgent"        => 1,
+        "Log::Log4perl"         => 1,
+        "MIME::Base64"          => 1,
+        "Mojo::Base"            => 0,
+        "Moo"                   => 1,
+        "URI"                   => 1,
+        "YAML"                  => "0.90"
+    },
+    "TEST_REQUIRES" => {
+        "ExtUtils::MakeMaker"       => 0,
+        "File::Spec"                => 0,
+        "File::Temp"                => 0,
+        "Test2::Bundle::Extended"   => 0,
+        "Test2::Plugin::NoWarnings" => 0,
+        "Test2::Tools::Explain"     => 0,
+        "Test::CPAN::Meta"          => 0,
+        "Test::More"                => 0,
+        "Test::NoTabs"              => 0
+    },
+    "VERSION" => "0.07",
+    "test"    => { "TESTS" => "t/*.t" }
 );
-
 
 my %FallbackPrereqs = (
-  "ExtUtils::MakeMaker" => 0,
-  "File::Spec" => 0,
-  "File::Temp" => 0,
-  "HTTP::Request::Common" => 1,
-  "JSON" => 1,
-  "LWP::UserAgent" => 1,
-  "Log::Log4perl" => 1,
-  "MIME::Base64" => 1,
-  "Mojo::Base" => 0,
-  "Moo" => 1,
-  "Test2::Bundle::Extended" => 0,
-  "Test2::Plugin::NoWarnings" => 0,
-  "Test2::Tools::Explain" => 0,
-  "Test::CPAN::Meta" => 0,
-  "Test::More" => 0,
-  "Test::NoTabs" => 0,
-  "URI" => 1,
-  "YAML" => "0.90"
+    "ExtUtils::MakeMaker"       => 0,
+    "File::Spec"                => 0,
+    "File::Temp"                => 0,
+    "HTTP::Request::Common"     => 1,
+    "JSON"                      => 1,
+    "LWP::UserAgent"            => 1,
+    "Log::Log4perl"             => 1,
+    "MIME::Base64"              => 1,
+    "Mojo::Base"                => 0,
+    "Moo"                       => 1,
+    "Test2::Bundle::Extended"   => 0,
+    "Test2::Plugin::NoWarnings" => 0,
+    "Test2::Tools::Explain"     => 0,
+    "Test::CPAN::Meta"          => 0,
+    "Test::More"                => 0,
+    "Test::NoTabs"              => 0,
+    "URI"                       => 1,
+    "YAML"                      => "0.90"
 );
 
-
 unless ( eval { ExtUtils::MakeMaker->VERSION(6.63_03) } ) {
-  delete $WriteMakefileArgs{TEST_REQUIRES};
-  delete $WriteMakefileArgs{BUILD_REQUIRES};
-  $WriteMakefileArgs{PREREQ_PM} = \%FallbackPrereqs;
+    delete $WriteMakefileArgs{TEST_REQUIRES};
+    delete $WriteMakefileArgs{BUILD_REQUIRES};
+    $WriteMakefileArgs{PREREQ_PM} = \%FallbackPrereqs;
 }
 
 delete $WriteMakefileArgs{CONFIGURE_REQUIRES}

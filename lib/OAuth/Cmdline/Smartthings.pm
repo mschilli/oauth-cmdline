@@ -12,11 +12,12 @@ extends "OAuth::Cmdline";
 # ABSTRACT: Smartthings-specific OAuth oddities
 
 sub BUILD {
-    my( $self ) = @_;
+    my ($self) = @_;
 
-    if( !defined $self->base_uri ) {
-          # default to US
-        $self->base_uri( "https://graph-na02-useast1.api.smartthings.com" );
+    if ( !defined $self->base_uri ) {
+
+        # default to US
+        $self->base_uri("https://graph-na02-useast1.api.smartthings.com");
     }
 
     $self->login_uri( $self->base_uri . "/oauth/authorize" );

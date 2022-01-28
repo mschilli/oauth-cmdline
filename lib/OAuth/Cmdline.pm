@@ -18,13 +18,13 @@ use Moo;
 
 has client_id     => ( is => "rw" );
 has client_secret => ( is => "rw" );
-has local_uri      => ( 
-  is      => "rw",
-  default => "http://localhost:8082",
+has local_uri => (
+    is      => "rw",
+    default => "http://localhost:8082",
 );
-has homedir => ( 
-  is      => "ro",
-  default => glob '~',
+has homedir => (
+    is      => "ro",
+    default => glob '~',
 );
 has base_uri    => ( is => "rw" );
 has login_uri   => ( is => "rw" );
@@ -38,7 +38,7 @@ has raise_error => ( is => "rw" );
 ###########################################
 sub redirect_uri {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
     return $self->local_uri . "/callback";
 }
@@ -46,30 +46,29 @@ sub redirect_uri {
 ###########################################
 sub cache_file_path {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
-      # creds saved  ~/.[site].yml
-    return $self->homedir . "/." .
-           $self->site . ".yml";
+    # creds saved  ~/.[site].yml
+    return $self->homedir . "/." . $self->site . ".yml";
 }
 
 ###########################################
 sub full_login_uri {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
     my $full_login_uri = URI->new( $self->login_uri );
 
-    $full_login_uri->query_form (
-      client_id     => $self->client_id(),
-      response_type => "code",
-      (defined $self->redirect_uri() ?
-        ( redirect_uri  => $self->redirect_uri() ) :
-        ()
-      ),
-      scope         => $self->scope(),
-      ($self->access_type() ?
-          (access_type => $self->access_type()) : ()),
+    $full_login_uri->query_form(
+        client_id     => $self->client_id(),
+        response_type => "code",
+        (
+            defined $self->redirect_uri()
+            ? ( redirect_uri => $self->redirect_uri() )
+            : ()
+        ),
+        scope => $self->scope(),
+        ( $self->access_type() ? ( access_type => $self->access_type() ) : () ),
     );
 
     DEBUG "full login uri: $full_login_uri";
@@ -79,31 +78,28 @@ sub full_login_uri {
 ###########################################
 sub access_token {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
-    if( $self->token_expired() ) {
+    if ( $self->token_expired() ) {
         $self->token_refresh() or LOGDIE "Token refresh failed";
     }
 
     my $cache = $self->cache_read();
-    return $cache->{ access_token };
+    return $cache->{access_token};
 }
 
 ###########################################
 sub authorization_headers {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
-    return ( 
-        'Authorization' => 
-            'Bearer ' . $self->access_token
-    );
+    return ( 'Authorization' => 'Bearer ' . $self->access_token );
 }
 
 ###########################################
 sub token_refresh_authorization_header {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
     return ();
 }
@@ -111,40 +107,39 @@ sub token_refresh_authorization_header {
 ###########################################
 sub token_refresh {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
     DEBUG "Refreshing access token";
 
     my $cache = $self->cache_read();
 
-    $self->token_uri( $cache->{ token_uri } );
+    $self->token_uri( $cache->{token_uri} );
 
     my $req = &HTTP::Request::Common::POST(
         $self->token_uri,
         {
-            refresh_token => $cache->{ refresh_token },
-            client_id     => $cache->{ client_id },
-            client_secret => $cache->{ client_secret },
+            refresh_token => $cache->{refresh_token},
+            client_id     => $cache->{client_id},
+            client_secret => $cache->{client_secret},
             grant_type    => 'refresh_token',
         },
         $self->token_refresh_authorization_header(),
     );
 
-    my $ua = LWP::UserAgent->new();
+    my $ua   = LWP::UserAgent->new();
     my $resp = $ua->request($req);
 
-    if( $resp->is_success() ) {
-        my $data = 
-        from_json( $resp->content() );
+    if ( $resp->is_success() ) {
+        my $data = from_json( $resp->content() );
 
         DEBUG "Token refreshed, will expire in $data->{ expires_in } seconds";
 
-        $cache->{ access_token } = $data->{ access_token };
-        $cache->{ expires }      = $data->{ expires_in } + time();
+        $cache->{access_token} = $data->{access_token};
+        $cache->{expires}      = $data->{expires_in} + time();
 
-    ($cache, $data) = $self->update_refresh_token($cache, $data);
+        ( $cache, $data ) = $self->update_refresh_token( $cache, $data );
 
-        $self->cache_write( $cache );
+        $self->cache_write($cache);
         return 1;
     }
 
@@ -155,24 +150,25 @@ sub token_refresh {
 ###########################################
 sub update_refresh_token {
 ###########################################
-    my( $self, $cache, $data ) = @_;
-    
-    return ($cache, $data);
+    my ( $self, $cache, $data ) = @_;
+
+    return ( $cache, $data );
 }
 
 ###########################################
 sub token_expired {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
     my $cache = $self->cache_read();
 
-    my $time_remaining = $cache->{ expires } - time();
+    my $time_remaining = $cache->{expires} - time();
 
-    if( $time_remaining < 300 ) {
-        if( $time_remaining < 0 ) {
+    if ( $time_remaining < 300 ) {
+        if ( $time_remaining < 0 ) {
             DEBUG "Token expired ", -$time_remaining, " seconds ago";
-        } else {
+        }
+        else {
             DEBUG "Token will expire in $time_remaining seconds";
         }
 
@@ -186,20 +182,20 @@ sub token_expired {
 ###########################################
 sub token_expire {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
     my $cache = $self->cache_read();
 
-    $cache->{ expires } = time() - 1;
-    $self->cache_write( $cache );
+    $cache->{expires} = time() - 1;
+    $self->cache_write($cache);
 }
 
 ###########################################
 sub cache_read {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
-    if( ! -f $self->cache_file_path ) {
+    if ( !-f $self->cache_file_path ) {
         LOGDIE "Cache file ", $self->cache_file_path, " not found. ",
           "See GETTING STARTED in the docs for how to get started.";
     }
@@ -210,7 +206,7 @@ sub cache_read {
 ###########################################
 sub cache_write {
 ###########################################
-    my( $self, $cache ) = @_;
+    my ( $self, $cache ) = @_;
 
     my $old_umask = umask 0177;
 
@@ -223,7 +219,7 @@ sub cache_write {
 ###########################################
 sub tokens_get_additional_params {
 ###########################################
-    my( $self, $params ) = @_;
+    my ( $self, $params ) = @_;
 
     return $params;
 }
@@ -231,39 +227,44 @@ sub tokens_get_additional_params {
 ###########################################
 sub tokens_get {
 ###########################################
-    my( $self, $code ) = @_;
+    my ( $self, $code ) = @_;
 
     my $req = &HTTP::Request::Common::POST(
-        $self->token_uri, $self->tokens_get_additional_params(
-        [
-            code          => $code,
-            client_id     => $self->client_id,
-            client_secret => $self->client_secret,
-            redirect_uri  => $self->redirect_uri,
-            grant_type    => 'authorization_code',
-        ])
+        $self->token_uri,
+        $self->tokens_get_additional_params(
+            [
+                code          => $code,
+                client_id     => $self->client_id,
+                client_secret => $self->client_secret,
+                redirect_uri  => $self->redirect_uri,
+                grant_type    => 'authorization_code',
+            ]
+        )
     );
 
-    my $ua = LWP::UserAgent->new();
+    my $ua   = LWP::UserAgent->new();
     my $resp = $ua->request($req);
 
-    if( $resp->is_success() ) {
+    if ( $resp->is_success() ) {
         my $json = $resp->content();
         DEBUG "Received: [$json]";
-        my $data = from_json( $json );
+        my $data = from_json($json);
 
-        return ( $data->{ access_token }, 
-            $data->{ refresh_token },
-            $data->{ expires_in } );
+        return (
+            $data->{access_token},
+            $data->{refresh_token},
+            $data->{expires_in}
+        );
     }
 
     my $error;
     eval {
         my $json = $resp->content();
         DEBUG "Received: [$json]",
-        my $data = from_json( $json );
+          my $data = from_json($json);
         $error = $data->{'error'};
     };
+
     # An exception will be thrown if the content is not JSON
     if ($@) {
         $error = $resp->content();
@@ -276,10 +277,12 @@ sub tokens_get {
 ###########################################
 sub tokens_collect {
 ###########################################
-    my( $self, $code ) = @_;
+    my ( $self, $code ) = @_;
 
-    my( $access_token, $refresh_token,
-        $expires_in ) = $self->tokens_get( $code );
+    my (
+        $access_token, $refresh_token,
+        $expires_in
+    ) = $self->tokens_get($code);
 
     my $cache = {
         access_token  => $access_token,
@@ -290,26 +293,28 @@ sub tokens_collect {
         token_uri     => $self->token_uri,
     };
 
-    $self->cache_write( $cache );
+    $self->cache_write($cache);
 }
 
 ###########################################
 sub http_get {
 ###########################################
-    my( $self, $url, $query ) = @_;
+    my ( $self, $url, $query ) = @_;
 
     my $ua = LWP::UserAgent->new();
 
-    my $uri = URI->new( $url );
-    $uri->query_form( @$query ) if defined $query;
+    my $uri = URI->new($url);
+    $uri->query_form(@$query) if defined $query;
 
     DEBUG "Fetching $uri";
 
-    my $resp = $ua->get( $uri, 
-        $self->authorization_headers, @$query );
+    my $resp = $ua->get(
+        $uri,
+        $self->authorization_headers, @$query
+    );
 
-    if( $resp->is_error ) {
-        if( $self->raise_error ) {
+    if ( $resp->is_error ) {
+        if ( $self->raise_error ) {
             die $resp->message;
         }
         return undef;
@@ -321,22 +326,20 @@ sub http_get {
 ###########################################
 sub client_init_conf_check {
 ###########################################
-    my( $self, $url ) = @_;
+    my ( $self, $url ) = @_;
 
-    my $conf = { };
-    if( -f $self->cache_file_path ) {
+    my $conf = {};
+    if ( -f $self->cache_file_path ) {
         $conf = $self->cache_read();
     }
 
-    if( !exists $conf->{ client_id } or
-        !exists $conf->{ client_secret } ) {
-        die "You need to register your application on " .
-          "$url and add the client_id and " .
-          "client_secret entries to " . $self->cache_file_path . "\n";
+    if (   !exists $conf->{client_id}
+        or !exists $conf->{client_secret} ) {
+        die "You need to register your application on " . "$url and add the client_id and " . "client_secret entries to " . $self->cache_file_path . "\n";
     }
-    
-    $self->client_id( $conf->{ client_id } );
-    $self->client_secret( $conf->{ client_secret } );
+
+    $self->client_id( $conf->{client_id} );
+    $self->client_secret( $conf->{client_secret} );
 
     return 1;
 }

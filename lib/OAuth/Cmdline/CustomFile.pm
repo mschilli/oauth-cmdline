@@ -22,7 +22,7 @@ sub site {
 ###########################################
 sub cache_file_path {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
     return $self->custom_file;
 }

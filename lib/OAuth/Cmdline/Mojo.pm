@@ -11,27 +11,27 @@ use Mojo::Base 'Mojolicious';
 ###########################################
 sub startup {
 ###########################################
-  my( $self ) = @_;
+    my ($self) = @_;
 
-  my $renderer = $self->renderer();
-  push @{$renderer->paths}, $self->template_path();
+    my $renderer = $self->renderer();
+    push @{ $renderer->paths }, $self->template_path();
 
-  $self->routes->get('/')->to('main#root');
-  $self->routes->get('/callback')->to('main#callback');
+    $self->routes->get('/')->to('main#root');
+    $self->routes->get('/callback')->to('main#callback');
 }
 
 ###########################################
 sub template_path {
 ###########################################
-  my( $self ) = @_;
+    my ($self) = @_;
 
-    # point renderer to where our .html.ep 
+    # point renderer to where our .html.ep
     # templates are installed
-  my $dir = $INC{ 'OAuth/Cmdline.pm' };
-  $dir =~ s/\.pm//;
-  $dir .= "/templates";
+    my $dir = $INC{'OAuth/Cmdline.pm'};
+    $dir =~ s/\.pm//;
+    $dir .= "/templates";
 
-  return $dir;
+    return $dir;
 }
 
 ###########################################
@@ -42,27 +42,28 @@ use Mojo::Base 'Mojolicious::Controller';
 ###########################################
 sub root {
 ###########################################
-  my ( $self ) = @_;
+    my ($self) = @_;
 
-  $self->stash->{ login_url } = $self->app->{ oauth }->full_login_uri();
-  $self->stash->{ site }      = $self->app->{ oauth }->site();
+    $self->stash->{login_url} = $self->app->{oauth}->full_login_uri();
+    $self->stash->{site}      = $self->app->{oauth}->site();
 
-  $self->render( "main" );
+    $self->render("main");
 }
 
 ###########################################
 sub callback {
 ###########################################
-  my ( $self ) = @_;
+    my ($self) = @_;
 
-  my $code = $self->param( "code" );
+    my $code = $self->param("code");
 
-  $self->app->{ oauth }->tokens_collect( $code );
-  
-  $self->render( 
-      text   => "Tokens saved in " . $self->app->{ oauth }->cache_file_path,
-      layout => 'default' );
-};
+    $self->app->{oauth}->tokens_collect($code);
+
+    $self->render(
+        text   => "Tokens saved in " . $self->app->{oauth}->cache_file_path,
+        layout => 'default'
+    );
+}
 
 1;
 

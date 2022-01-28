@@ -8,23 +8,22 @@ use Test::More;
 use JSON qw( from_json );
 use OAuth::Cmdline::Smartthings;
 
-SKIP: { 
+SKIP: {
 
-    if(! exists $ENV{"LIVE_TESTS"}) {
+    if ( !exists $ENV{"LIVE_TESTS"} ) {
         skip "- only with LIVE_TESTS", 1;
     }
 
     my $oauth = OAuth::Cmdline::Smartthings->new;
 
-    my $json = $oauth->http_get( $oauth->base_uri . 
-        "/api/smartapps/endpoints" );
+    my $json = $oauth->http_get( $oauth->base_uri . "/api/smartapps/endpoints" );
 
-    if( !defined $json ) {
+    if ( !defined $json ) {
         die "Can't get endpoints";
     }
 
-    my $uri = from_json( $json )->[ 0 ]->{ uri } . "/switches";
-    my $data = $oauth->http_get( $uri );
+    my $uri  = from_json($json)->[0]->{uri} . "/switches";
+    my $data = $oauth->http_get($uri);
     is $data, q/[{"name":"Outlet","value":"on"}]/, "report on switches";
 }
 

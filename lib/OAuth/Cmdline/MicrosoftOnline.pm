@@ -11,8 +11,8 @@ use Moo;
 # ABSTRACT: Microsoft Online-specific settings for OAuth::Cmdline
 
 has resource => (
-  is => "rw",
-  required => 1,
+    is       => "rw",
+    required => 1,
 );
 
 ###########################################
@@ -26,9 +26,9 @@ sub site {
 ###########################################
 sub tokens_get_additional_params {
 ###########################################
-    my( $self, $params ) = @_;
+    my ( $self, $params ) = @_;
 
-    push(@$params, resource => $self->resource);
+    push( @$params, resource => $self->resource );
 
     return $params;
 }
@@ -36,15 +36,15 @@ sub tokens_get_additional_params {
 ###########################################
 sub update_refresh_token {
 ###########################################
-    my( $self, $cache, $data ) = @_;
+    my ( $self, $cache, $data ) = @_;
 
     # MS Online returns a new refresh token with every access token.
     # We need to use this new token each time otherwise in 14 days
     # we have to re-authorise. By updating the refresh token, we
     # get 90 days
-    $cache->{ refresh_token } = $data->{ refresh_token };
+    $cache->{refresh_token} = $data->{refresh_token};
 
-    return ($cache, $data);
+    return ( $cache, $data );
 }
 
 __END__

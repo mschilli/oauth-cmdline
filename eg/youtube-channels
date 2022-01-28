@@ -10,15 +10,14 @@ use LWP::UserAgent;
 use JSON qw( from_json );
 use URI::Escape;
 
-my $oauth = OAuth::Cmdline::Youtube->new( );
+my $oauth = OAuth::Cmdline::Youtube->new();
 
 my $ua = LWP::UserAgent->new();
 $ua->default_header( $oauth->authorization_headers );
 
-my $resp = $ua->get(
-    "https://www.googleapis.com/youtube/v3/channels?part=id&mine=true" );
+my $resp = $ua->get("https://www.googleapis.com/youtube/v3/channels?part=id&mine=true");
 
-if( $resp->is_error ) {
+if ( $resp->is_error ) {
     die "Error: ", $resp->message(), $resp->content();
 }
 

@@ -19,16 +19,14 @@ sub site {
 ###########################################
 sub token_refresh_authorization_header {
 ###########################################
-    my( $self ) = @_;
+    my ($self) = @_;
 
     my $cache = $self->cache_read();
 
-    my $auth_header = 
-        "Basic " . 
-        encode_base64( 
-            "$cache->{ client_id }:$cache->{ client_secret }", 
-            "" # no line break!!
-        );
+    my $auth_header = "Basic " . encode_base64(
+        "$cache->{ client_id }:$cache->{ client_secret }",
+        ""    # no line break!!
+    );
     return ( "Authorization" => $auth_header );
 }
 

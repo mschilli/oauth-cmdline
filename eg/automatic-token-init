@@ -7,20 +7,19 @@ use strict;
 use FindBin qw( $Bin );
 use lib "$Bin/../lib";
 use Log::Log4perl qw(:easy);
+
 # Log::Log4perl->easy_init($DEBUG);
 
 use OAuth::Cmdline::Automatic;
 use OAuth::Cmdline::Mojo;
 
 my $oauth = OAuth::Cmdline::Automatic->new(
-    login_uri     => "https://accounts.automatic.com/oauth/authorize",
-    token_uri     => "https://accounts.automatic.com/oauth/access_token",
-    scope         => "scope:public scope:user:profile scope:location " .
-                     "scope:vehicle:profile scope:vehicle:events " .
-                     "scope:trip scope:behavior",
+    login_uri => "https://accounts.automatic.com/oauth/authorize",
+    token_uri => "https://accounts.automatic.com/oauth/access_token",
+    scope     => "scope:public scope:user:profile scope:location " . "scope:vehicle:profile scope:vehicle:events " . "scope:trip scope:behavior",
 );
 
-$oauth->client_init_conf_check( "https://developer.automatic.com" );
+$oauth->client_init_conf_check("https://developer.automatic.com");
 
 my $app = OAuth::Cmdline::Mojo->new(
     oauth => $oauth,

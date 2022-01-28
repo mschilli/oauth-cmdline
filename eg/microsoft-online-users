@@ -8,29 +8,28 @@ use OAuth::Cmdline::MicrosoftOnline;
 use LWP::UserAgent;
 use JSON qw( from_json );
 use Text::TabularDisplay;
-use open qw/:std :utf8/;			# Enable UTF-8 output
+use open qw/:std :utf8/;    # Enable UTF-8 output
 use Log::Log4perl qw(:easy);
 Log::Log4perl->easy_init($DEBUG);
 
-my $oauth = OAuth::Cmdline::MicrosoftOnline->new(resource => "https://graph.microsoft.com");
+my $oauth = OAuth::Cmdline::MicrosoftOnline->new( resource => "https://graph.microsoft.com" );
 
 my $ua = LWP::UserAgent->new();
-$ua->default_header( 
-    $oauth->authorization_headers );
+$ua->default_header( $oauth->authorization_headers );
 
-my $resp = $ua->get( "https://graph.microsoft.com/v1.0/users?\$top=999" );
+my $resp = $ua->get("https://graph.microsoft.com/v1.0/users?\$top=999");
 
-if( $resp->is_error ) {
+if ( $resp->is_error ) {
     die "Error: ", $resp->message();
 }
 
 my $result = from_json( $resp->decoded_content() );
 
-my $table = Text::TabularDisplay->new(("Display name", "First name", "Surname", "Email", "Mobile"));
-for my $user( @{ $result->{ value } } ) {
-	$table->add(($user->{'displayName'}, $user->{'givenName'}, $user->{'surname'}, $user->{'mail'}, $user->{'mobile'}));
+my $table = Text::TabularDisplay->new( ( "Display name", "First name", "Surname", "Email", "Mobile" ) );
+for my $user ( @{ $result->{value} } ) {
+    $table->add( ( $user->{'displayName'}, $user->{'givenName'}, $user->{'surname'}, $user->{'mail'}, $user->{'mobile'} ) );
 }
-print $table->render."\n";	# Note the enabling of UTF-8 above in case of extended characters in display names
+print $table->render . "\n";    # Note the enabling of UTF-8 above in case of extended characters in display names
 
 __END__
 

@@ -11,13 +11,13 @@ use OAuth::Cmdline::GoogleDrive;
 use OAuth::Cmdline::Mojo;
 
 my $oauth = OAuth::Cmdline::GoogleDrive->new(
-    login_uri     => "https://accounts.google.com/o/oauth2/auth",
-    token_uri     => "https://accounts.google.com/o/oauth2/token",
-    scope         => "https://www.googleapis.com/auth/drive",
-    access_type   => "offline",
+    login_uri   => "https://accounts.google.com/o/oauth2/auth",
+    token_uri   => "https://accounts.google.com/o/oauth2/token",
+    scope       => "https://www.googleapis.com/auth/drive",
+    access_type => "offline",
 );
 
-$oauth->client_init_conf_check( "https://developers.google.com" );
+$oauth->client_init_conf_check("https://developers.google.com");
 
 my $app = OAuth::Cmdline::Mojo->new(
     oauth => $oauth,

@@ -8,26 +8,23 @@ use OAuth::Cmdline::Spotify;
 use LWP::UserAgent;
 use JSON qw( from_json );
 
-my( $user ) = @ARGV;
+my ($user) = @ARGV;
 die "usage: $0 user" if !defined $user;
 
-my $oauth = OAuth::Cmdline::Spotify->new( );
+my $oauth = OAuth::Cmdline::Spotify->new();
 
 my $ua = LWP::UserAgent->new();
-$ua->default_header( 
-    $oauth->authorization_headers );
+$ua->default_header( $oauth->authorization_headers );
 
-my $resp = $ua->get( 
-    "https://api.spotify.com/v1" .
-    "/users/$user/playlists" );
+my $resp = $ua->get( "https://api.spotify.com/v1" . "/users/$user/playlists" );
 
-if( $resp->is_error ) {
+if ( $resp->is_error ) {
     die "Error: ", $resp->message();
 }
 
 my $result = from_json( $resp->content() );
 
-for my $item ( @{ $result->{ items } } ) {
+for my $item ( @{ $result->{items} } ) {
     print "$item->{ name }\n";
 }
 
